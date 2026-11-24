@@ -27,7 +27,7 @@ jobs:
       - name: Checkout theme repo
         uses: actions/checkout@v4
         with:
-          repository: ssp-remscheid/ssp-rs.de
+          repository: ssp-remscheid/ssp-rs-theme
           path: theme-temp
           token: ${{ secrets.WEBSITE_TRIGGER_TOKEN }}
 
