@@ -40,7 +40,7 @@ jobs:
           ls -la site/
           ls -la site/content/
           ls -la site/themes/
-          ls -la site/themes/lek-nrw-theme
+          ls -la site/themes/ssp-rs.de
 
       # 5. Hugo installieren
       - name: Install Hugo
