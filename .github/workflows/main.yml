@@ -46,7 +46,7 @@ jobs:
       - name: Install Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "0.152.2"
+          hugo-version: "0.162.0"
           extended: true
 
       # 6. Hugo im Content-Repo bauen
