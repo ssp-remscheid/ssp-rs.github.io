@@ -1,0 +1,63 @@
+name: Build Hugo Site
+
+on:
+  push:
+    branches: [ main ]
+  repository_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+         
+      # 1. Website-Repo (für Workflow + Deployment)
+      - name: Checkout website repo
+        uses: actions/checkout@v4
+
+      # 2. Content-Repo klonen
+      - name: Checkout content repo
+        uses: actions/checkout@v4
+        with:
+          repository: ssp-rs/ssp-rs-content
+          path: site
+          token: ${{ secrets.WEBSITE_TRIGGER_TOKEN }}
+
+      # 3. Theme ins Content-Repo klonen
+      - name: Checkout theme repo
+        uses: actions/checkout@v4
+        with:
+          repository: ssp-rs/ssp-rs.de
+          path: theme-temp
+          token: ${{ secrets.WEBSITE_TRIGGER_TOKEN }}
+
+      # 4. Theme in das richtige Verzeichnis verschieben
+      - name: Move theme into content repo
+        run: |
+          mkdir -p site/themes
+          rm -rf site/themes/ssp-rs.de
+          mv theme-temp site/themes/ssp-rs.de
+          ls -la site/
+          ls -la site/content/
+          ls -la site/themes/
+          ls -la site/themes/lek-nrw-theme
+
+      # 5. Hugo installieren
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.152.2"
+          extended: true
+
+      # 6. Hugo im Content-Repo bauen
+      - name: Build Hugo
+        run: |
+          cd site
+          hugo
+
+      # 7. Deployment (GitHub Pages)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: site/public
