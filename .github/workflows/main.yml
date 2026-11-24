@@ -11,7 +11,7 @@ jobs:
 
     steps:
          
-      # 1. Website-Repo (für Workflow + Deployment)
+      # 1. Website-Repo (fuer Workflow + Deployment)
       - name: Checkout website repo
         uses: actions/checkout@v4
 
